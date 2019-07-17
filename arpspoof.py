@@ -13,7 +13,8 @@ from scapy.all import ARP, Ether, get_if_hwaddr, getmacbyip, sendp
 
 __author__ = "omega_coder"
 __email__ = "yacine@octodet.com"
-__version__ = "v0.1 Beta"
+__first_release__ = "October 2015"
+__version__ = "v1.0"
 
 
 
@@ -26,7 +27,7 @@ def parse_args():
     parser.add_argument("-t", "--target", type=str, help="Our Target")
     parser.add_argument("-i", "--interface", type=str, help="Interface to send arp replay's on!")
     parser.add_argument("host", type=str, help="The host")
-    parser.add_argument("-r", action="store_true", help="poision both ways!!")
+    parser.add_argument("-r", action="store_true", help="poison both ways!!")
     args = parser.parse_args()
     return args
 
@@ -43,7 +44,7 @@ def spoof():
     if os.geteuid() != 0:
         perror("[!] SCRIPT SHOULD BE RUN  AS ROOT!")
         sys.exit(1)
-    
+
     host = args.host
     if_mac = get_if_hwaddr(args.interface)
     interface = args.interface
@@ -73,21 +74,18 @@ def spoof():
         p_success("[+] Exiting!")
         sys.exit(0)
 
-
     signal.signal(signal.SIGINT, rearp_targets)
 
 
     pkt = make_reply_packet(args.target, host)
     if args.reverse:
         r_pkt = make_reply_packet(host, args.target)
-    
+
+
     while True:
         sendp(pkt, inter=30, iface=interface)
         if args.reverse:
             sendp(r_pkt, inter=30, iface=interface)
-
-
-
 
 
 if __name__ == "__main__":
