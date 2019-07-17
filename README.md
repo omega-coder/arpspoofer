@@ -22,7 +22,7 @@ python3 -m pip install scapy
 ## Usage
 
 ```
-python3 arpspoof.py --interface <your_interface> --target <victim_ip_or_domain> <host_ip_or_domain> 
+python3 arpspoof.py --interface <your_interface> --target <victim_ip_or_domain> <host_ip_or_domain> -d <delay>
 ```
 
 
