@@ -34,7 +34,7 @@ def parse_args():
 
 def perror(string):
     print("\033[1;31;40m{}\033[0;37;40m\n".format(string))
-    
+
 def p_success(string):
     print("\033[1;32;40m{}\033[0;37;40m".format(string))
 
@@ -62,7 +62,7 @@ def spoof():
 
     def rearp_targets(signal, frame):
         sleep(1)
-        p_success("[?] Rearping Targets")
+        p_success("\n[+] Rearping Targets")
         r_mac = getmacbyip(host)
         pkt = Ether(src=r_mac, dst="ff:ff:ff:ff:ff:ff") / ARP(psrc=host, hwsrc=if_mac, op=2)
         sendp(pkt, inter=1, count=3, iface=interface)
@@ -78,6 +78,8 @@ def spoof():
 
 
     pkt = make_reply_packet(args.target, host)
+
+    # if we are poisoning in both ways
     if args.reverse:
         r_pkt = make_reply_packet(host, args.target)
 
